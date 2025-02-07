@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 public class ChatopUserServiceImpl implements ChatopUserService {
     private final ChatopUserRepository chatopUserRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     @Override
     public AuthResponseDTO register(RegisterRequestDTO registerInfos) {
