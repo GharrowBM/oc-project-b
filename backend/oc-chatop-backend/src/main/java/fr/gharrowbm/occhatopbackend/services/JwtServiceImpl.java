@@ -42,7 +42,7 @@ public class JwtServiceImpl implements JwtService {
             return false;
         }
 
-        return false;
+        return true;
     }
 
     @Override
