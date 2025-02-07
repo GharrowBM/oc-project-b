@@ -4,13 +4,14 @@ import fr.gharrowbm.occhatopbackend.entities.ChatopUser;
 import fr.gharrowbm.occhatopbackend.models.AuthResponseDTO;
 import fr.gharrowbm.occhatopbackend.models.LoginRequestDTO;
 import fr.gharrowbm.occhatopbackend.models.RegisterRequestDTO;
+import fr.gharrowbm.occhatopbackend.repositories.ChatopUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class ChatopUserServiceImpl implements ChatopUserService {
-    private final ChatopUserService chatopUserService;
+    private final ChatopUserRepository chatopUserRepository;
 
     @Override
     public AuthResponseDTO register(RegisterRequestDTO registerInfos) {

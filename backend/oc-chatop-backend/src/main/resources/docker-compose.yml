@@ -1,0 +1,18 @@
+version: '3.1'
+
+services:
+  chatop-database:
+    image: mysql:9
+    container_name: chatop-database
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_password}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-chatop_db}
+      MYSQL_USER: ${MYSQL_USER:-user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-user_password}
+    ports:
+        - "3306:3306"
+        - "33060:33060"
+    volumes:
+      - chatop-data:/var/lib/mysql
+volumes:
+    chatop-data:
