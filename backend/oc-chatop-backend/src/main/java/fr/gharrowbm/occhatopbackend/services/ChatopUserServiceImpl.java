@@ -9,6 +9,7 @@ import fr.gharrowbm.occhatopbackend.models.RegisterRequestDTO;
 import fr.gharrowbm.occhatopbackend.repositories.ChatopUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -48,7 +49,17 @@ public class ChatopUserServiceImpl implements ChatopUserService {
     }
 
     @Override
-    public ChatopUserDTO getById(Long id) {
-        return null;
+    public ChatopUserDTO getByAuthentication(Authentication authentication) {
+        String email = authentication.getName();
+        ChatopUser foundUser = chatopUserRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User with email [" + email + "] not found"));
+        return new ChatopUserDTO(
+                foundUser.getId(),
+                foundUser.getEmail(),
+                foundUser.getName(),
+                foundUser.getCreatedAt().toString(),
+                foundUser.getUpdatedAt().toString()
+        );
+
     }
 }

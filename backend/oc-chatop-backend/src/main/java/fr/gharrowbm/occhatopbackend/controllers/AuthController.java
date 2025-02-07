@@ -7,6 +7,7 @@ import fr.gharrowbm.occhatopbackend.models.RegisterRequestDTO;
 import fr.gharrowbm.occhatopbackend.services.ChatopUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,8 +28,7 @@ public class AuthController {
     }
 
     @GetMapping(BASE_PATH + "/me")
-    public ResponseEntity<ChatopUserDTO> getSelfDetails() {
-        Long userId = 1L;
-        return ResponseEntity.ok(chatopUserService.getById(userId));
+    public ResponseEntity<ChatopUserDTO> getSelfDetails(Authentication authentication) {
+        return ResponseEntity.ok(chatopUserService.getByAuthentication(authentication));
     }
 }
