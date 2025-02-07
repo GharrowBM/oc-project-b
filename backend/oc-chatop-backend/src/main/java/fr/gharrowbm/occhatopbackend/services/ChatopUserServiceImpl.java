@@ -32,7 +32,7 @@ public class ChatopUserServiceImpl implements ChatopUserService {
         user.setPassword(passwordEncoder.encode(registerInfos.password()));
         chatopUserRepository.save(user);
 
-        return new AuthResponseDTO("token");
+        return new AuthResponseDTO(jwtService.generate(registerInfos.email()));
     }
 
     @Override
@@ -44,7 +44,7 @@ public class ChatopUserServiceImpl implements ChatopUserService {
             throw new BadCredentialsException("Invalid password");
         }
 
-        return new AuthResponseDTO("token");
+        return new AuthResponseDTO(jwtService.generate(loginInfos.email()));
     }
 
     @Override

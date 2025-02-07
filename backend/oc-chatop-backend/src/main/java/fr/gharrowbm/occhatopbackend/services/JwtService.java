@@ -1,7 +1,7 @@
 package fr.gharrowbm.occhatopbackend.services;
 
 public interface JwtService {
-    String generate();
+    String generate(String email);
     boolean validate(String token);
-    String extractUsername(String token);
+    String extractEmail(String token);
 }
