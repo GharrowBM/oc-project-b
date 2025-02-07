@@ -7,10 +7,7 @@ import fr.gharrowbm.occhatopbackend.models.RegisterRequestDTO;
 import fr.gharrowbm.occhatopbackend.services.ChatopUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,16 +18,17 @@ public class AuthController {
 
     @PostMapping(BASE_PATH + "/register")
     public ResponseEntity<AuthResponseDTO> register(@RequestBody RegisterRequestDTO registerRequestDTO) {
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(chatopUserService.register(registerRequestDTO));
     }
 
     @PostMapping(BASE_PATH + "/login")
     public ResponseEntity<AuthResponseDTO> register(@RequestBody LoginRequestDTO loginRequestDTO) {
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(chatopUserService.login(loginRequestDTO));
     }
 
     @GetMapping(BASE_PATH + "/me")
     public ResponseEntity<ChatopUserDTO> getSelfDetails() {
-        return ResponseEntity.ok().build();
+        Long userId = 1L;
+        return ResponseEntity.ok(chatopUserService.getById(userId));
     }
 }
