@@ -22,7 +22,7 @@ public class RentalController {
     }
 
     @GetMapping(BASE_PATH + "/{id}")
-    public ResponseEntity<RentalDTO> getById(Long id) {
+    public ResponseEntity<RentalDTO> getById(@PathVariable Long id) {
         return ResponseEntity.ok(rentalService.getById(id));
     }
 
