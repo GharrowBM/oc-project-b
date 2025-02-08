@@ -2,9 +2,12 @@ package fr.gharrowbm.occhatopbackend.controllers;
 
 import fr.gharrowbm.occhatopbackend.models.BaseMessageResponse;
 import fr.gharrowbm.occhatopbackend.models.RentalDTO;
+import fr.gharrowbm.occhatopbackend.models.RentalPostRequestDTO;
+import fr.gharrowbm.occhatopbackend.models.RentalPutRequestDTO;
 import fr.gharrowbm.occhatopbackend.services.RentalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,12 +30,14 @@ public class RentalController {
     }
 
     @PostMapping(BASE_PATH)
-    public ResponseEntity<BaseMessageResponse> post() {
-        return ResponseEntity.ok(rentalService.create());
+    public ResponseEntity<BaseMessageResponse> post(RentalPostRequestDTO rentalPostRequestDTO, Authentication authentication) {
+        String email = authentication.getName();
+        return ResponseEntity.ok(rentalService.create(rentalPostRequestDTO, email));
     }
 
     @PutMapping(BASE_PATH + "/{id}")
-    public ResponseEntity<BaseMessageResponse> put(@PathVariable Long id) {
-        return ResponseEntity.ok(rentalService.update(id));
+    public ResponseEntity<BaseMessageResponse> put(@PathVariable Long id, RentalPutRequestDTO rentalPutRequestDTO, Authentication authentication) {
+        String email = authentication.getName();
+        return ResponseEntity.ok(rentalService.update(id, rentalPutRequestDTO, email));
     }
 }

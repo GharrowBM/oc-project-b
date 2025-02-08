@@ -28,7 +28,7 @@ public class Rental {
     private BigDecimal price;
     @Column(nullable = true)
     private String pictureUrl;
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
     @CreationTimestamp
