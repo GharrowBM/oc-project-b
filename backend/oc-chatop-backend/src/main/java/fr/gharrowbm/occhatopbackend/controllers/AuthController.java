@@ -3,6 +3,7 @@ package fr.gharrowbm.occhatopbackend.controllers;
 import fr.gharrowbm.occhatopbackend.models.*;
 import fr.gharrowbm.occhatopbackend.services.ChatopUserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -25,6 +26,7 @@ public class AuthController {
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = BaseExceptionResponse.class)))
     })
     @Operation(summary = "Register a new user")
+    @Parameter(name = "registerRequestDTO", description = "The informations to register a new user", required = true)
     @PostMapping(BASE_PATH + "/register")
     public ResponseEntity<AuthResponseDTO> register(@RequestBody RegisterRequestDTO registerRequestDTO) {
         return ResponseEntity.ok(chatopUserService.register(registerRequestDTO));
