@@ -4,6 +4,6 @@ public record BaseExceptionResponse(
         String message,
         String timestamp,
         String path,
-        Long statusCode
+        Integer statusCode
 ) {
 }
