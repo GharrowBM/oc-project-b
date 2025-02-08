@@ -2,6 +2,8 @@ package fr.gharrowbm.occhatopbackend.services;
 
 import fr.gharrowbm.occhatopbackend.entities.ChatopUser;
 import fr.gharrowbm.occhatopbackend.entities.Rental;
+import fr.gharrowbm.occhatopbackend.exceptions.ChatopUserNotFoundException;
+import fr.gharrowbm.occhatopbackend.exceptions.RentalNotFoundException;
 import fr.gharrowbm.occhatopbackend.models.BaseMessageResponse;
 import fr.gharrowbm.occhatopbackend.models.RentalDTO;
 import fr.gharrowbm.occhatopbackend.models.RentalPostRequestDTO;
@@ -44,7 +46,7 @@ public class RentalServiceImpl implements RentalService {
     @Override
     public BaseMessageResponse create(RentalPostRequestDTO rentalPostRequestDTO, String email) {
         ChatopUser owner = chatopUserRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ChatopUserNotFoundException("User not found with email [" + email + "]"));
 
         Rental rental = new Rental();
         rental.setName(rentalPostRequestDTO.name());
@@ -62,10 +64,10 @@ public class RentalServiceImpl implements RentalService {
     @Override
     public BaseMessageResponse update(Long id, RentalPutRequestDTO rentalPutRequestDTO, String email) {
         ChatopUser owner = chatopUserRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ChatopUserNotFoundException("User not found with email [" + email + "]"));
 
         Rental rental = rentalRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Rental not found"));
+                .orElseThrow(() -> new RentalNotFoundException("Rental not found with id [" + id + "]"));
 
 
         rental.setName(rentalPutRequestDTO.name());
