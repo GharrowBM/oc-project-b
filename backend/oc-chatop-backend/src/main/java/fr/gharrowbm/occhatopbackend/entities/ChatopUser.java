@@ -34,4 +34,7 @@ public class ChatopUser {
 
     @OneToMany(mappedBy = "owner")
     private Set<Rental> rentals;
+
+    @OneToMany(mappedBy = "sender")
+    private Set<ChatopMessage> messages;
 }
