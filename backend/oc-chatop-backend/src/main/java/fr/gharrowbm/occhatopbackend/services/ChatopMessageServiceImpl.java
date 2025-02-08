@@ -3,6 +3,8 @@ package fr.gharrowbm.occhatopbackend.services;
 import fr.gharrowbm.occhatopbackend.entities.ChatopMessage;
 import fr.gharrowbm.occhatopbackend.entities.ChatopUser;
 import fr.gharrowbm.occhatopbackend.entities.Rental;
+import fr.gharrowbm.occhatopbackend.exceptions.ChatopUserNotFoundException;
+import fr.gharrowbm.occhatopbackend.exceptions.RentalNotFoundException;
 import fr.gharrowbm.occhatopbackend.models.BaseMessageResponse;
 import fr.gharrowbm.occhatopbackend.models.ChatopMessagePostRequestDTO;
 import fr.gharrowbm.occhatopbackend.repositories.ChatopMessageRepository;
@@ -21,10 +23,10 @@ public class ChatopMessageServiceImpl implements ChatopMessageService {
     @Override
     public BaseMessageResponse postMessage(ChatopMessagePostRequestDTO dto) {
         ChatopUser sender = chatopUserRepository.findById(dto.userId())
-                .orElseThrow(() -> new RuntimeException("User with id [" + dto.userId() + "] not found"));
+                .orElseThrow(() -> new ChatopUserNotFoundException("User with id [" + dto.userId() + "] not found"));
 
         Rental rental = rentalRepository.findById(dto.rentalId())
-                .orElseThrow(() -> new RuntimeException("Rental with id [" + dto.rentalId() + "] not found"));
+                .orElseThrow(() -> new RentalNotFoundException("Rental with id [" + dto.rentalId() + "] not found"));
 
         ChatopMessage message = new ChatopMessage();
         message.setMessage(dto.message());

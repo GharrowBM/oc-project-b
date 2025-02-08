@@ -31,7 +31,7 @@ public class ChatopSecurityConfig {
         });
 
         http.authorizeHttpRequests(authz -> {
-            authz.requestMatchers("/api/auth/register", "/api/auth/login").permitAll();
+            authz.requestMatchers("/api/auth/register", "/api/auth/login", "/api-docs/**", "/swagger-ui/**").permitAll();
             authz.anyRequest().authenticated();
         });
 

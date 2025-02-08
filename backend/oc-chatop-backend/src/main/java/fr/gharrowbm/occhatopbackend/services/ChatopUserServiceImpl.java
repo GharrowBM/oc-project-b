@@ -1,6 +1,7 @@
 package fr.gharrowbm.occhatopbackend.services;
 
 import fr.gharrowbm.occhatopbackend.entities.ChatopUser;
+import fr.gharrowbm.occhatopbackend.exceptions.ChatopUserNotFoundException;
 import fr.gharrowbm.occhatopbackend.exceptions.UserEmailIsAlreadyTakenException;
 import fr.gharrowbm.occhatopbackend.models.AuthResponseDTO;
 import fr.gharrowbm.occhatopbackend.models.ChatopUserDTO;
@@ -39,7 +40,7 @@ public class ChatopUserServiceImpl implements ChatopUserService {
     @Override
     public AuthResponseDTO login(LoginRequestDTO loginInfos) {
         ChatopUser foundUser = chatopUserRepository.findByEmail(loginInfos.email())
-                .orElseThrow(() -> new UsernameNotFoundException("User with email [" + loginInfos.email() + "] not found"));
+                .orElseThrow(() -> new ChatopUserNotFoundException("User with email [" + loginInfos.email() + "] not found"));
 
         if(!passwordEncoder.matches(loginInfos.password(), foundUser.getPassword())) {
             throw new BadCredentialsException("Invalid password");
@@ -52,7 +53,7 @@ public class ChatopUserServiceImpl implements ChatopUserService {
     public ChatopUserDTO getByAuthentication(Authentication authentication) {
         String email = authentication.getName();
         ChatopUser foundUser = chatopUserRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User with email [" + email + "] not found"));
+                .orElseThrow(() -> new ChatopUserNotFoundException("User with email [" + email + "] not found"));
         return new ChatopUserDTO(
                 foundUser.getId(),
                 foundUser.getEmail(),
