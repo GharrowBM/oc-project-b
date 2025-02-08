@@ -10,10 +10,15 @@ import fr.gharrowbm.occhatopbackend.repositories.ChatopUserRepository;
 import fr.gharrowbm.occhatopbackend.repositories.RentalRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -46,7 +51,7 @@ public class RentalServiceImpl implements RentalService {
         rental.setDescription(rentalPostRequestDTO.description());
         rental.setPrice(BigDecimal.valueOf(rentalPostRequestDTO.price()));
         rental.setSurface(rentalPostRequestDTO.surface());
-        rental.setPictureUrl(rentalPostRequestDTO.picture().getName());
+        rental.setPictureUrl(savePicture(rentalPostRequestDTO.picture()));
         rental.setOwner(owner);
 
         rentalRepository.save(rental);
@@ -86,5 +91,21 @@ public class RentalServiceImpl implements RentalService {
                 rental.getCreatedAt().toString(),
                 rental.getUpdatedAt().toString()
         );
+    }
+
+    private String savePicture(MultipartFile picture) {
+        String pictureName = UUID.randomUUID().toString();
+        String picturePath = "src/main/resources/static/pictures/" + pictureName + "-" + picture.getOriginalFilename();
+        try {
+            File fileToSave = new File(picturePath);
+            FileWriter fileWriter = new FileWriter(fileToSave);
+            fileWriter.write(new String(picture.getBytes()));
+            fileWriter.close();
+
+            return picturePath;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
