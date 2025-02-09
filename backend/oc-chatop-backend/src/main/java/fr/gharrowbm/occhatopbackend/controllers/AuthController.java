@@ -3,7 +3,6 @@ package fr.gharrowbm.occhatopbackend.controllers;
 import fr.gharrowbm.occhatopbackend.models.*;
 import fr.gharrowbm.occhatopbackend.services.ChatopUserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
