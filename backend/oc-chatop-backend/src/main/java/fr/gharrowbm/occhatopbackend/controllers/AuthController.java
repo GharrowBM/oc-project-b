@@ -26,7 +26,6 @@ public class AuthController {
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = BaseExceptionResponse.class)))
     })
     @Operation(summary = "Register a new user")
-    @Parameter(name = "registerRequestDTO", description = "The informations to register a new user", required = true)
     @PostMapping(BASE_PATH + "/register")
     public ResponseEntity<AuthResponseDTO> register(@RequestBody RegisterRequestDTO registerRequestDTO) {
         return ResponseEntity.ok(chatopUserService.register(registerRequestDTO));
