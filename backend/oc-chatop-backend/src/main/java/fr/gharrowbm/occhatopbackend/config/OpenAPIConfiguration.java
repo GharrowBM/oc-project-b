@@ -10,6 +10,7 @@ import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -31,7 +32,7 @@ public class OpenAPIConfiguration {
         info.setContact(contact);
 
         return new OpenAPI()
-                .addSecurityItem(new SecurityRequirement())
+                .addSecurityItem(new SecurityRequirement().addList("Bearer Authentication", Arrays.asList("read", "write")))
                 .components(new Components().addSecuritySchemes("Bearer Authentication", createAPIKeyScheme()))
                 .info(info)
                 .servers(List.of(server));
@@ -40,6 +41,7 @@ public class OpenAPIConfiguration {
     private SecurityScheme createAPIKeyScheme() {
         return new SecurityScheme().type(SecurityScheme.Type.HTTP)
                 .bearerFormat("JWT")
-                .scheme("bearer");
+                .scheme("bearer")
+                .in(SecurityScheme.In.HEADER).name("Authorization");
     }
 }

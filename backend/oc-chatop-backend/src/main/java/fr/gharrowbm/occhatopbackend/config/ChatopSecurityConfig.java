@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.password.HaveIBeenPwnedRestApiPasswordChecker;
 
 @Configuration
+@EnableWebSecurity(debug = true)
 public class ChatopSecurityConfig {
     @Autowired
     private JwtFilter jwtFilter;
@@ -31,7 +33,7 @@ public class ChatopSecurityConfig {
         });
 
         http.authorizeHttpRequests(authz -> {
-            authz.requestMatchers("/api/auth/register", "/api/auth/login", "/api-docs/**", "/swagger-ui/**").permitAll();
+            authz.requestMatchers("/api/auth/register", "/api/auth/login", "/api-docs/**", "/swagger-ui/**", "/pictures/**", "/error").permitAll();
             authz.anyRequest().authenticated();
         });
 

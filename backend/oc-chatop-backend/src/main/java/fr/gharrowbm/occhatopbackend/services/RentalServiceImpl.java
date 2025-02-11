@@ -11,9 +11,11 @@ import fr.gharrowbm.occhatopbackend.models.RentalPutRequestDTO;
 import fr.gharrowbm.occhatopbackend.repositories.ChatopUserRepository;
 import fr.gharrowbm.occhatopbackend.repositories.RentalRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -27,6 +29,9 @@ import java.util.UUID;
 public class RentalServiceImpl implements RentalService {
     private final RentalRepository rentalRepository;
     private final ChatopUserRepository chatopUserRepository;
+
+    private final String SAVE_DIRECTORY_PATH = "src" + File.separator + "main" + File.separator + "resources" + File.separator + "pictures";
+    private final File SAVE_DIRECTORY = new File(SAVE_DIRECTORY_PATH);
 
     @Override
     public List<RentalDTO> getAll() {
@@ -87,7 +92,7 @@ public class RentalServiceImpl implements RentalService {
                 rental.getName(),
                 rental.getSurface(),
                 rental.getPrice().floatValue(),
-                rental.getPictureUrl(),
+                "http://localhost:3001/pictures/" + rental.getPictureUrl(),
                 rental.getDescription(),
                 rental.getOwner().getId(),
                 rental.getCreatedAt().toString(),
@@ -95,16 +100,22 @@ public class RentalServiceImpl implements RentalService {
         );
     }
 
-    private String savePicture(MultipartFile picture) {
-        String pictureName = UUID.randomUUID().toString();
-        String picturePath = "src/main/resources/static/pictures/" + pictureName + "-" + picture.getOriginalFilename();
-        try {
-            File fileToSave = new File(picturePath);
-            FileWriter fileWriter = new FileWriter(fileToSave);
-            fileWriter.write(new String(picture.getBytes()));
-            fileWriter.close();
+    private void createDirectoryIfNeeded() {
+        if (!SAVE_DIRECTORY.exists()) {
+            SAVE_DIRECTORY.mkdirs();
+        }
+    }
 
-            return picturePath;
+    private String savePicture(MultipartFile picture) {
+        String randomUUID = UUID.randomUUID().toString();
+        String pictureName = randomUUID + "-" + picture.getOriginalFilename();
+        String picturePath = SAVE_DIRECTORY_PATH + File.separator + pictureName;
+        try {
+            createDirectoryIfNeeded();
+            File fileToSave = new File(picturePath);
+            ImageIO.write(ImageIO.read(picture.getInputStream()), "jpg", fileToSave);
+
+            return pictureName;
         } catch (IOException e) {
             e.printStackTrace();
         }

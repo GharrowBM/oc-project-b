@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,7 @@ public class AuthController {
     })
     @Operation(summary = "Register a new user")
     @PostMapping(BASE_PATH + "/register")
+    @SecurityRequirement(name = "none")
     public ResponseEntity<AuthResponseDTO> register(@RequestBody RegisterRequestDTO registerRequestDTO) {
         return ResponseEntity.ok(chatopUserService.register(registerRequestDTO));
     }
@@ -38,6 +40,7 @@ public class AuthController {
     })
     @Operation(summary = "Login")
     @PostMapping(BASE_PATH + "/login")
+    @SecurityRequirement(name = "none")
     public ResponseEntity<AuthResponseDTO> register(@RequestBody LoginRequestDTO loginRequestDTO) {
         return ResponseEntity.ok(chatopUserService.login(loginRequestDTO));
     }
