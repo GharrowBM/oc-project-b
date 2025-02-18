@@ -4,6 +4,7 @@ import fr.gharrowbm.occhatopbackend.entities.ChatopUser;
 import fr.gharrowbm.occhatopbackend.entities.Rental;
 import fr.gharrowbm.occhatopbackend.exceptions.ChatopUserNotFoundException;
 import fr.gharrowbm.occhatopbackend.exceptions.RentalNotFoundException;
+import fr.gharrowbm.occhatopbackend.exceptions.UnsupportedMediaTypeException;
 import fr.gharrowbm.occhatopbackend.models.BaseMessageResponse;
 import fr.gharrowbm.occhatopbackend.models.RentalDTO;
 import fr.gharrowbm.occhatopbackend.models.RentalPostRequestDTO;
@@ -107,6 +108,8 @@ public class RentalServiceImpl implements RentalService {
     }
 
     private String savePicture(MultipartFile picture) {
+        String contentType = picture.getContentType();
+        if(!contentType.startsWith("images/")) throw new UnsupportedMediaTypeException("Only images are supported");
         String randomUUID = UUID.randomUUID().toString();
         String pictureName = randomUUID + "-" + picture.getOriginalFilename();
         String picturePath = SAVE_DIRECTORY_PATH + File.separator + pictureName;

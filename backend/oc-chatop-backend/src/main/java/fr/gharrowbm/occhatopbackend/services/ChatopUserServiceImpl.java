@@ -43,7 +43,7 @@ public class ChatopUserServiceImpl implements ChatopUserService {
                 .orElseThrow(() -> new ChatopUserNotFoundException("User with email [" + loginInfos.email() + "] not found"));
 
         if(!passwordEncoder.matches(loginInfos.password(), foundUser.getPassword())) {
-            throw new BadCredentialsException("Invalid password");
+            throw new BadCredentialsException("Bad credentials");
         }
 
         return new AuthResponseDTO(jwtService.generate(loginInfos.email()));

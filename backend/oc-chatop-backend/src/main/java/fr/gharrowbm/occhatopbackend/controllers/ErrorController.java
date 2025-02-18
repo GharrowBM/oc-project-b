@@ -2,6 +2,7 @@ package fr.gharrowbm.occhatopbackend.controllers;
 
 import fr.gharrowbm.occhatopbackend.exceptions.ChatopUserNotFoundException;
 import fr.gharrowbm.occhatopbackend.exceptions.RentalNotFoundException;
+import fr.gharrowbm.occhatopbackend.exceptions.UnsupportedMediaTypeException;
 import fr.gharrowbm.occhatopbackend.exceptions.UserEmailIsAlreadyTakenException;
 import fr.gharrowbm.occhatopbackend.models.BaseExceptionResponse;
 import io.swagger.v3.oas.annotations.Hidden;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import java.util.Date;
 
@@ -52,6 +54,26 @@ public class ErrorController {
                 new Date().toString(),
                 "path",
                 401
+        ));
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<BaseExceptionResponse> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
+        return ResponseEntity.status(413).body(new BaseExceptionResponse(
+                e.getMessage(),
+                new Date().toString(),
+                "path",
+                413
+        ));
+    }
+
+    @ExceptionHandler(UnsupportedMediaTypeException.class)
+    public ResponseEntity<BaseExceptionResponse> handleUnsupportedMediaTypeException(UnsupportedMediaTypeException e) {
+        return ResponseEntity.status(415).body(new BaseExceptionResponse(
+                e.getMessage(),
+                new Date().toString(),
+                "path",
+                415
         ));
     }
 }
