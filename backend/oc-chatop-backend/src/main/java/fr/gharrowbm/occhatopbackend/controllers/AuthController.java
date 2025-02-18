@@ -54,4 +54,14 @@ public class AuthController {
     public ResponseEntity<ChatopUserDTO> getSelfDetails(Authentication authentication) {
         return ResponseEntity.ok(chatopUserService.getByAuthentication(authentication));
     }
+
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "User details retrieved successfully", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ChatopUserDTO.class))),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = BaseExceptionResponse.class)))
+    })
+    @Operation(summary = "Get user details by ID")
+    @GetMapping("/api/user/{id}")
+    public ResponseEntity<ChatopUserDTO> getUserDetailsById(@PathVariable Long id) {
+        return ResponseEntity.ok(chatopUserService.getById(id));
+    }
 }

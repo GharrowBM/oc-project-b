@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -30,8 +31,10 @@ public class RentalController {
     })
     @Operation(summary = "Get all rentals")
     @GetMapping(BASE_PATH)
-    public ResponseEntity<List<RentalDTO>> getAll() {
-        return ResponseEntity.ok(rentalService.getAll());
+    public ResponseEntity<HashMap<String, List<RentalDTO>>> getAll() {
+        HashMap<String, List<RentalDTO>> response = new HashMap<>();
+        response.put("rentals", rentalService.getAll());
+        return ResponseEntity.ok(response);
     }
 
     @ApiResponses({

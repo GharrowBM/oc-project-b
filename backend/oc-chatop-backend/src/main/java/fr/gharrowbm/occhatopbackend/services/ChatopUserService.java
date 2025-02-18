@@ -11,4 +11,5 @@ public interface ChatopUserService {
     AuthResponseDTO register(RegisterRequestDTO registerInfos);
     AuthResponseDTO login(LoginRequestDTO loginInfos);
     ChatopUserDTO getByAuthentication(Authentication authentication);
+    ChatopUserDTO getById(Long id);
 }

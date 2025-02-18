@@ -63,4 +63,19 @@ public class ChatopUserServiceImpl implements ChatopUserService {
         );
 
     }
+
+    @Override
+    public ChatopUserDTO getById(Long id) {
+        ChatopUser foundUser = chatopUserRepository.findById(id)
+                .orElseThrow(() -> new ChatopUserNotFoundException("User with id [" + id + "] not found"));
+        return new ChatopUserDTO(
+                foundUser.getId(),
+                foundUser.getEmail(),
+                foundUser.getName(),
+                foundUser.getCreatedAt().toString(),
+                foundUser.getUpdatedAt().toString()
+        );
+    }
+
+
 }
